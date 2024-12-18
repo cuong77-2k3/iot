@@ -9,9 +9,10 @@
         <script type="module">
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
             import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+
             document.getElementById('go-back').addEventListener('click', function() {
-                // Điều hướng quay lại trang Web 1 (URL của Web 1)
-                window.location.href = 'https://cuong77-2k3.github.io/iot/index.html'; // Thay 'path-to-web1.html' bằng đường dẫn thực tế đến Web 1
+                // Navigate back to Web 1 (replace the path with actual URL)
+                window.location.href = '1.html'; // Replace with the actual URL to Web 1
             });
 
             const firebaseConfig = {
@@ -89,13 +90,15 @@
                         const fireRatioElement = document.getElementById('fireRatio');
                         const fireRisk = data.fireRisk || "Không có dữ liệu";
 
-                        // Determine background and text color
                         let levelText = "Không có dữ liệu";
                         let colorText = "#000000";
-                        let backgroundColor = "#f8f9fa"; // Màu nền mặc định
+                        let backgroundColor = "#f8f9fa"; // Default background color
 
                         const overlay = document.getElementById('overlay');
-                        overlay.style.display = 'none'; // Ban đầu ẩn lớp phủ
+                        const audi = document.getElementById('audio');
+                        audi.pause();
+                        audi.currentTime = 0;
+                        overlay.style.display = 'none';
 
                         if (fireRisk !== "Không có dữ liệu") {
                             const fireValue = parseFloat(fireRisk);
@@ -119,18 +122,19 @@
                                 backgroundColor = "#FF0000"; // Dark red
                                 levelText = "Cấp độ cháy: Rất cao (V)";
                                 colorText = "#ffffff"; // White text
-
-                                // Hiển thị lớp phủ đỏ khi cháy rất cao
-                                overlay.style.display = 'block'; // Hiển thị lớp phủ
+                                audi.play();
+                                audi.loop = true;
+                                overlay.style.display = 'block';
                             }
                             fireRatioElement.textContent = levelText;
                         } else {
+                            audi.pause();
+                            audi.currentTime = 0;
                             fireRatioElement.textContent = levelText;
                         }
 
-                        // Apply styles
                         fireDiv.style.backgroundColor = backgroundColor;
-                        fireDiv.style.color = colorText; // Thay đổi màu chữ
+                        fireDiv.style.color = colorText;
                         fireDiv.style.borderRadius = "8px";
                         fireDiv.style.padding = "30px";
                     }
@@ -192,9 +196,11 @@
                 display: flex;
                 justify-content: space-between;
             }
+
             .info-row strong {
                 font-size: 20px;
             }
+
             .info div {
                 background-color: #f9f9f9;
                 padding: 20px;
@@ -211,18 +217,18 @@
 
             .info .fire {
                 display: flex;
-                justify-content: center; /* Căn giữa theo chiều ngang */
-                align-items: center; /* Căn giữa theo chiều dọc */
-                gap: 10px; /* Khoảng cách giữa các phần tử */
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
                 flex-wrap: nowrap;
             }
 
             .fire p {
-                margin: 0; /* Loại bỏ margin mặc định */
-                padding: 0; /* Loại bỏ padding mặc định */
+                margin: 0;
+                padding: 0;
             }
 
-            #fireRatio{
+            #fireRatio {
                 font-size: 30px;
                 font-weight: bold;
             }
@@ -243,28 +249,26 @@
                 margin-top: 30px;
                 border-top: 5px solid #0177A9;
             }
-            /* Định dạng cho nút */
+
             #go-back {
-                background-color: #0177A9; /* Màu nền xám (Bootstrap secondary) */
-                color: white; /* Màu chữ trắng */
-                border: none; /* Xóa viền */
-                padding: 10px 20px; /* Khoảng cách bên trong nút */
-                font-size: 20px; /* Kích thước chữ */
-                border-radius: 5px; /* Góc bo tròn */
-                cursor: pointer; /* Thay đổi con trỏ khi hover */
-                transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng chuyển đổi */
+                background-color: #0177A9;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.2s;
             }
 
-            /* Hiệu ứng khi di chuột vào nút */
             #go-back:hover {
-                background-color: #003044; /* Màu nền đậm hơn */
-                transform: scale(1.05); /* Phóng to nhẹ */
+                background-color: #003044;
+                transform: scale(1.05);
             }
 
-            /* Khi nhấn nút */
             #go-back:active {
-                background-color: #495057; /* Màu nền khi nhấn */
-                transform: scale(0.95); /* Thu nhỏ nhẹ */
+                background-color: #495057;
+                transform: scale(0.95);
             }
 
             #overlay {
@@ -273,10 +277,14 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-color: rgba(255, 0, 0, 0.5); /* Màu đỏ mờ */
-                display: none; /* Ban đầu ẩn đi */
-                z-index: 9999; /* Đảm bảo lớp phủ nằm trên tất cả các phần tử khác */
-                animation: blink 1s infinite; /* Áp dụng hiệu ứng nhấp nháy */
+                background-color: rgba(255, 0, 0, 0.5);
+                display: none;
+                z-index: 9999;
+                animation: blink 0.5s infinite;
+            }
+
+            #audio {
+                display: none;
             }
 
             @keyframes blink {
@@ -284,11 +292,15 @@
                 50% { opacity: 0.8; }
                 100% { opacity: 0.5; }
             }
-
         </style>
     </head>
     <body>
-        <div id="overlay"></div>
+        <div id="overlay" style="display:none;">
+            <audio id="audio" controls>
+                <source src="mp3.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
         <header>
             <h1>Thông Tin Môi Trường</h1>
             <h3>Nhiệt độ, độ ẩm và tỷ lệ cháy của môi trường hiện tại.</h3>
@@ -325,11 +337,13 @@
 
             <canvas id="chart"></canvas>
         </div>
+
         <div class="container mt-4 text-center">
             <button class="btn btn-secondary" id="go-back">Giám Sát Xe</button>
         </div>
+
         <footer>
             <p>Web được phát triển bởi Võ Vinh Cơ và Đào Duy Cường</p>
-        </footer>   
+        </footer>
     </body>
 </html>

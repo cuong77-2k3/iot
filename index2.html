@@ -86,6 +86,27 @@
                         document.getElementById('temperature').textContent = data.temperature || "---";
                         document.getElementById('humidity').textContent = data.humidity || "---";
 
+                        const currentTime = new Date().toLocaleTimeString();
+                        if (data.temperature) {
+                        if (combinedChart.data.labels.length >= 10) {
+                            combinedChart.data.labels.shift();
+                            combinedChart.data.datasets[0].data.shift();
+                        }
+                        combinedChart.data.labels.push(currentTime);
+                        combinedChart.data.datasets[0].data.push(data.temperature);
+                    }
+
+                    if (data.humidity) {
+                        if (combinedChart.data.labels.length >= 10) {
+                            combinedChart.data.labels.shift();
+                            combinedChart.data.datasets[1].data.shift();
+                        }
+                        combinedChart.data.labels.push(currentTime);
+                        combinedChart.data.datasets[1].data.push(data.humidity);
+                    }
+
+                    combinedChart.update();
+
                         const fireDiv = document.querySelector('.fire');
                         const fireRatioElement = document.getElementById('fireRatio');
                         const fireRisk = data.fireRisk || "Không có dữ liệu";

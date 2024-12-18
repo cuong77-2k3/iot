@@ -65,7 +65,10 @@
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
-
+        #gif{
+            display: block;
+            margin: 0 auto; /* Căn giữa hình ảnh */
+        }
         /* Nền màu xanh dương cho nút chuyển trang */
         .btn-info {
             background-color: #007bff;
@@ -75,6 +78,26 @@
         .btn-info:hover {
             background-color: #0056b3;
         }
+        #image{
+            display: flex;
+            justify-content: center;
+            width: 100%;            
+            margin: 0;              
+            background-color: white;
+            animation: bounce 2s ease infinite;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        .mt-5 {
+            margin-top: 0 !important;
+        }
+
     </style>
 </head>
 <body>
@@ -84,11 +107,9 @@
             <h1>Đồ án IOT - Bãi Đỗ Xe Thông Minh</h1>
             <p class="header-description">Hệ thống tự động theo dõi biển số xe và thời gian vào/ra</p>
         </div>
-
-        <div class="d-flex justify-content-center mt-4">
-            <img src="b.jpg" alt="Hình ảnh bãi đỗ xe" class="img-fluid rounded" style="max-width: 40%;">
+        <div id="image">
+            <img src="https://img.freepik.com/free-vector/underground-parking-illustration_1284-17040.jpg?t=st=1734278649~exp=1734282249~hmac=1d252cc2920bb021d15356a4ac5f589acb80d9dac1ab6ade16874aafa677195a&w=1380" alt="Ảnh" width="626" height="381">
         </div>
-
         <div class="d-flex justify-content-around text-center mt-4 mb-5">
             <div>
                 <h5>Số lượng xe hiện tại</h5>
@@ -146,14 +167,15 @@
         <div class="text-center mt-4">
             <p>Giám sát dữ liệu: <a href="http://surl.li/lczsue" target="_blank">http://surl.li/lczsue</a></p>
         </div>
-        
+        <img id="gif" src="gif.gif" />
+        <!---
+        <video width="1280" height="720" autoplay muted>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>-->
         <!-- Button to switch to web2 -->
         <div class="text-center mt-4">
-            <button class="btn btn-info" id="switch-to-web2">Kiểm Tra Nhiệt Độ</button>
-        </div>
-
-        <div class="d-flex justify-content-center mt-4">
-            <img src="gif.gif" alt="Hình ảnh bãi đỗ xe" class="img-fluid rounded" style="max-width: 80%;">
+            <button class="btn btn-info" id="switch-to-web2">Chuyển sang Web 2</button>
         </div>
 
         <!-- Thông tin liên hệ -->
@@ -250,7 +272,7 @@
             }
         });
         document.getElementById('switch-to-web2').addEventListener('click', () => {
-    window.location.href = 'https://cuong77-2k3.github.io/iot/index2.html'; // Replace with your Web 2 URL
+    window.location.href = '2.html'; // Replace with your Web 2 URL
 });
     </script>
 </body>
